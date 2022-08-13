@@ -5,7 +5,7 @@ highlighter: 'pygments'
 #paginate: 8
 permalink: /:title
 
-title: JhonHu's blog
+title: Jhon's blog
 url: http://jhonhu1994.github.io
 feed: /atom.xml
 author_info: <a href="http://jhonhu1994.github.io/">JhonHu</a>
