@@ -1,4 +1,5 @@
 ---
+layout: head
 layout: post
 title: 回车、换行、和文件末尾空行
 description: 回车和换行在不同系统下面定义不同，时不时会有一些小问题出来，git 经常出现的 No new line at the end of file 也让很多人费解，需要梳理一下
@@ -102,9 +103,15 @@ category: blog
 ## 测试段落
 
 这是一个测试段落，by Jhon Hu.
+
+行内公式测试一：$\mathbf{A},\,\mathbb{A},\,\mathcal{A}$ .
+
+行内公式测试二：$\mathbf{A}=(\mathbf{B}+\lambda\mathbf{I})^{-1}$ .
+
+行间公式测试：
 $$
-\mathbf{A}=(\mathbf{B}+\lambda\mathbf{I})^{-1}
+(\mathbf{A}+\mathbf{x}\mathbf{y}^\mathrm{T})^{-1}=\mathbf{A}^{-1}-\frac{\mathbf{A}^{-1}\mathbf{x}\mathbf{y}^\mathrm{T}\mathbf{A}^{-1}}{1+\mathbf{y}^\mathrm{T}\mathbf{A}^{-1}\mathbf{x}}
 $$
-行内公式测试：$\mathbf{A},\,\mathbb{A},\,\mathcal{A}$ 
+测试完毕。
 
 [BeiYuu]:    http://beiyuu.com  "BeiYuu"
