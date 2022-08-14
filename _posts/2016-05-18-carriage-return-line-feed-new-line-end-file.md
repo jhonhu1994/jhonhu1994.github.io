@@ -24,7 +24,7 @@ category: blog
     //源文件内容
     hello
     hello2
-
+    
     //二进制内容
     0000000: 6865 6c6c 6f0d 0a68 656c 6c6f 32         hello..hello2
 
@@ -33,7 +33,7 @@ category: blog
     //源文件内容
     hello
     hello2
-
+    
     //二进制内容
     0000000: 6865 6c6c 6f0a 6865 6c6c 6f32 0a         hello.hello2.
 
@@ -57,7 +57,7 @@ category: blog
     //hello.c
     #include head.h
     print('hello')
-
+    
     //world.c
     #include tail.h
     print('hello')
@@ -65,7 +65,7 @@ category: blog
 如果这两个文件都按 POSIX 规范来写， 在`cat *.c`之后，是没有问题的：
 
     //cat.c
-
+    
     #include head.h
     print('hello')
     #include tail.h
@@ -74,7 +74,7 @@ category: blog
 如果缺少最后一行的换行符（如 Windows 文件那样的定义），`cat`之后，就有问题了：
 
     //error.c
-
+    
     #include head.h
     print('hello')#include tail.h
     print('hello')
@@ -98,5 +98,13 @@ category: blog
     "ensure_newline_at_eof_on_save": true,
 
 所以，请遵守规范。
+
+## 测试段落
+
+这是一个测试段落，by Jhon Hu.
+$$
+\mathbf{A}=(\mathbf{B}+\lambda\mathbf{I})^{-1}
+$$
+行内公式测试：$\mathbf{A},\,\mathbb{A},\,\mathcal{A}$ 
 
 [BeiYuu]:    http://beiyuu.com  "BeiYuu"
