@@ -112,6 +112,7 @@ category: blog
 $$
 (\mathbf{A}+\mathbf{x}\mathbf{y}^\mathrm{T})^{-1}=\mathbf{A}^{-1}-\frac{\mathbf{A}^{-1}\mathbf{x}\mathbf{y}^\mathrm{T}\mathbf{A}^{-1}}{1+\mathbf{y}^\mathrm{T}\mathbf{A}^{-1}\mathbf{x}}
 $$
+
 测试完毕。
 
 [BeiYuu]:    http://beiyuu.com  "BeiYuu"
