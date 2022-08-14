@@ -109,6 +109,7 @@ category: blog
 行内公式测试二：$\mathbf{A}=(\mathbf{B}+\lambda\mathbf{I})^{-1}$ .
 
 行间公式测试：
+
 $$
 (\mathbf{A}+\mathbf{x}\mathbf{y}^\mathrm{T})^{-1}=\mathbf{A}^{-1}-\frac{\mathbf{A}^{-1}\mathbf{x}\mathbf{y}^\mathrm{T}\mathbf{A}^{-1}}{1+\mathbf{y}^\mathrm{T}\mathbf{A}^{-1}\mathbf{x}}
 $$
