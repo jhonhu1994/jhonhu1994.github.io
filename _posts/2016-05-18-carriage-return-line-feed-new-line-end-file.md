@@ -37,7 +37,7 @@ $$
 \mathbf{x}_{t+1}\leftarrow\arg\,\max_{\mathbf{x}}\,S(\mathbf{x}\vert P(f\vert\mathcal{D}_{1:t}))\tag{2}
 $$
 
-根据（2）式，在贝叶斯优化中，一般称 $S(\mathbf{x}\vert P(f\vert\mathcal{D}_{1:t}))$ 为获取函数（acquisition function）。在获得 $\mathbf{x}_{t+1}$ 处的观测值 $y_{t+1}=f(\mathbf{x}_{t+1})$ 之后。重复上述过程，直至达到采样次数上限 $T$ . 最终，算法返回所有观测值中最大的样本点 $f(\mathbf{x}^*)=y_T^+=\max\{y_1,\cdots,y_t,\cdots,y_T\}$ 作为优化问题（1）的解。
+根据（2）式，在贝叶斯优化中，一般称 $S(\mathbf{x}\vert P(f\vert\mathcal{D}\_{1:t}))$ 为获取函数（acquisition function）。在获得 $\mathbf{x}_{t+1}$ 处的观测值 $y_{t+1}=f(\mathbf{x}_{t+1})$ 之后。重复上述过程，直至达到采样次数上限 $T$ . 最终，算法返回所有观测值中最大的样本点 $f(\mathbf{x}^*)=y_T^+=\max\{y_1,\cdots,y_t,\cdots,y_T\}$ 作为优化问题（1）的解。
 
 显然，贝叶斯优化可以视为一个序贯优化方法，其每步迭代，都求解原始优化问题的一个近似/代理问题（即 $\max_{\mathbf{x}}\,S(\mathbf{x}\vert P(f\vert\mathcal{D}_{1:t}))$ ），最终得到原问题的解。而使用统计模型对函数 $f(\cdot)$ 进行建模，其意义主要有两点：
 
