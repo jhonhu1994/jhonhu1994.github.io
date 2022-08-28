@@ -31,7 +31,7 @@ $$
 
 <center><p><font size="3"><em>随机过程可视为函数的分布，对于任意的自变量 x（指标），其返回函数 f(x) 取值的一个分布（图中虚线）。或者，可以认为，其返回 f(x) 取值的一个估计值（均值 &mu;(x)，图中实线），以及此估计的置信程度（方差 &sigma;(x)，图中紫色区域）</em></font><br/></p></center>
 
-设经过前 $t$ 步迭代，已获得样本集 $\mathcal{D}_{1:t}=\{(\mathbf{x}_1,y_1),\,\cdots,\,(\mathbf{x}_t,y_t)\}$ ；根据贝叶斯理论，我们可以获得目标函数 $f(\mathbf{x})$ 的后验分布：$P(f\vert\mathcal{D}_{1:t})\propto P(\mathcal{D}_{1:t}\vert f)P(f)$ 。进而，第 $t+1$ 个采样点可通过最大化某个期望效用函数 $S(\mathbf{x}\vert P(f\vert\mathcal{D}_{1:t}))$ 进行选取（例如，最大化后验均值 $\mu(\mathbf{x}\vert P(f\vert\mathcal{D}_{1:t}))$ ），即有
+设经过前 $t$ 步迭代，已获得样本集 $\mathcal{D}_{1:t}$ ；根据贝叶斯理论，我们可以获得目标函数 $f(\mathbf{x})$ 的后验分布：$P(f\vert\mathcal{D}_{1:t})\propto P(\mathcal{D}_{1:t}\vert f)P(f)$ 。进而，第 $t+1$ 个采样点可通过最大化某个期望效用函数 $S(\mathbf{x}\vert P(f\vert\mathcal{D}_{1:t}))$ 进行选取（例如，最大化后验均值 $\mu(\mathbf{x}\vert P(f\vert\mathcal{D}_{1:t}))$ ），即有
 
 $$
 \mathbf{x}_{t+1}\leftarrow\arg\,\max_{\mathbf{x}}\,S(\mathbf{x}\vert P(f\vert\mathcal{D}_{1:t}))\tag{2}
