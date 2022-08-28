@@ -9,11 +9,9 @@ category: blog
 ## 目标问题
 
 贝叶斯优化（Bayesian Optimization）用于解决黑箱无导数全局优化问题（black-box derivative-free global optimization）：
-
 $$
-\max_{\mathbf{x}\in\mathcal{X}}\;f(\mathbf{x})\tag{1}
+\max_ {\mathbf{x}\in\mathcal{X}\subset\mathbb{R}^d}\;f(\mathbf{x})\tag{1}
 $$
-
 而与传统的优化问题不同，式（1）具有以下特征：
 
 - 目标函数 $f(\cdot)$ 没有闭式表达（black-box），且导数未知或难以计算（derivative-free），仅可以获得在任意采样点 $\mathbf{x}$ 处的取值 $y=f(\mathbf{x})$ ;
@@ -31,18 +29,16 @@ $$
 
 <center><p><font size="3"><em>随机过程可视为函数的分布，对于任意的自变量 x（指标），其返回函数 f(x) 取值的一个分布（图中虚线）。或者，可以认为，其返回 f(x) 取值的一个估计值（均值 &mu;(x)，图中实线），以及此估计的置信程度（方差 &sigma;(x)，图中紫色区域）</em></font><br/></p></center>
 
-设经过前 $t$ 步迭代，已获得样本集 $\mathcal{D}_ {1:t}$ ；根据贝叶斯理论，我们可以获得目标函数 $f(\mathbf{x})$ 的后验分布：$P(f\vert\mathcal{D}_ {1:t})\propto P(\mathcal{D}_ {1:t}\vert f)P(f)$ 。进而，第 $t+1$ 个采样点可通过最大化某个期望效用函数 $S(\mathbf{x}\vert P(f\vert\mathcal{D}_ {1:t}))$ 进行选取（例如，最大化后验均值 $\mu(\mathbf{x}\vert P(f\vert\mathcal{D}_ {1:t}))$ ），即有
-
+设经过前 $t$ 步迭代，已获得样本集 $\mathcal{D}_ {1:t}=\{(\mathbf{x}_ 1,y_ 1),\,\cdots,\,(\mathbf{x}_ t,y_ t)\}$ ；根据贝叶斯理论，我们可以获得目标函数 $f(\mathbf{x})$ 的后验分布：$P(f\vert\mathcal{D}_{1:t})\propto P(\mathcal{D}_{1:t}\vert f)P(f)$ 。进而，第 $t+1$ 个采样点可通过最大化某个期望效用函数 $S(\mathbf{x}\vert P(f\vert\mathcal{D}_ {1:t}))$ 进行选取（例如，最大化后验均值 $\mu(\mathbf{x}\vert P(f\vert\mathcal{D}_ {1:t}))$ ），即有
 $$
-\mathbf{x}_{t+1}\leftarrow\arg\,\max_{\mathbf{x}}\,S(\mathbf{x}\vert P(f\vert\mathcal{D}_{1:t}))\tag{2}
+\mathbf{x}_ {t+1}\leftarrow\arg\,\max_ {\mathbf{x}}\,S(\mathbf{x}\vert P(f\vert\mathcal{D}_ {1:t}))\tag{2}
 $$
-
-根据（2）式，在贝叶斯优化中，一般称 $S(\mathbf{x}\vert P(f\vert\mathcal{D}_ {1:t}))$ 为获取函数（acquisition function）。在获得 $\mathbf{x}_ {t+1}$ 处的观测值 $y_{t+1}=f(\mathbf{x}_ {t+1})$ 之后。重复上述过程，直至达到采样次数上限 $T$ . 最终，算法返回所有观测值中最大的样本点 $f(\mathbf{x}^*)=y_T^+=\max\{y_1,\cdots,y_t,\cdots,y_T\}$ 作为优化问题（1）的解。
+根据（2）式，在贝叶斯优化中，一般称 $S(\mathbf{x}\vert P(f\vert\mathcal{D}_ {1:t}))$ 为获取函数（acquisition function）。在获得 $\mathbf{x}_ {t+1}$ 处的观测值 $y_ {t+1}=f(\mathbf{x}_ {t+1})$ 之后。重复上述过程，直至达到采样次数上限 $T$ . 最终，算法返回所有观测值中最大的样本点 $f(\mathbf{x}^*)=y_ T^+=\max\{y_ 1,\cdots,y_ t,\cdots,y_ T\}$ 作为优化问题（1）的解。
 
 显然，贝叶斯优化可以视为一个序贯优化方法，其每步迭代，都求解原始优化问题的一个近似/代理问题（即 $\max_{\mathbf{x}}\,S(\mathbf{x}\vert P(f\vert\mathcal{D}_ {1:t}))$ ），最终得到原问题的解。而使用统计模型对函数 $f(\cdot)$ 进行建模，其意义主要有两点：
 
-1. 每步迭代，最大化函数 $f(\cdot)$ 取值分布的期望效用，仅追求 “平均” 意义上的最优，（通过设计合适的获取函数）可以较好的平衡 “全局搜索” 和 “局部最优” ，进而使用尽可能少的采样，获得尽可能好的解；
-2. 由于使用了概率模型，对于存在观测噪声的情况，即 $y_t=f(\mathbf{x}_ t)+\epsilon_t$ ，可以很容易地将其包括进来。
+- [ ] 每步迭代，最大化函数 $f(\cdot)$ 取值分布的期望效用，仅追求 “平均” 意义上的最优，（通过设计合适的获取函数）可以较好的平衡 “全局搜索” 和 “局部最优” ，进而使用尽可能少的采样，获得尽可能好的解；
+- [ ] 由于使用了概率模型，对于存在观测噪声的情况，即 $y_ t=f(\mathbf{x}_ t)+\epsilon_ t$ ，可以很容易地将其包括进来。
 
 ## \ No new line at end of file
 
@@ -69,11 +65,9 @@ $$
 行内公式测试二：$\mathbf{A}=(\mathbf{B}+\lambda\mathbf{I})^{-1}$ .
 
 行间公式测试：
-
 $$
 (\mathbf{A}+\mathbf{x}\mathbf{y}^\mathrm{T})^{-1}=\mathbf{A}^{-1}-\frac{\mathbf{A}^{-1}\mathbf{x}\mathbf{y}^\mathrm{T}\mathbf{A}^{-1}}{1+\mathbf{y}^\mathrm{T}\mathbf{A}^{-1}\mathbf{x}}
 $$
-
 测试完毕。
 
 [BeiYuu]:    http://beiyuu.com  "BeiYuu"
