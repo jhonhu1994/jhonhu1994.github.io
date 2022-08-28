@@ -31,13 +31,13 @@ $$
 
 <center><p><font size="3"><em>随机过程可视为函数的分布，对于任意的自变量 x（指标），其返回函数 f(x) 取值的一个分布（图中虚线）。或者，可以认为，其返回 f(x) 取值的一个估计值（均值 &mu;(x)，图中实线），以及此估计的置信程度（方差 &sigma;(x)，图中紫色区域）</em></font><br/></p></center>
 
-设经过前 $t$ 步迭代，已获得样本集 $\mathcal{D}_ {1:t}=\{(\mathbf{x}_ 1,y_ 1),\,\cdots,\,(\mathbf{x}_ t,y_ t)\}$ ；根据贝叶斯理论，我们可以获得目标函数 $f(\mathbf{x})$ 的后验分布：$P(f\vert\mathcal{D}_{1:t})\propto P(\mathcal{D}_{1:t}\vert f)P(f)$ 。进而，第 $t+1$ 个采样点可通过最大化某个期望效用函数 $S(\mathbf{x}\vert P(f\vert\mathcal{D}_ {1:t}))$ 进行选取（例如，最大化后验均值 $\mu(\mathbf{x}\vert P(f\vert\mathcal{D}_ {1:t}))$ ），即有
+设经过前 $t$ 步迭代，已获得样本集 $\mathcal{D}_ {1:t}=\{(\mathbf{x}_ 1,y_ 1),\,\cdots,\,(\mathbf{x}_ t,y_ t)\}$ ；根据贝叶斯理论，我们可以获得目标函数 $f(\mathbf{x})$ 的后验分布：$P(f\vert\mathcal{D}_ {1:t})\propto P(\mathcal{D}_ {1:t}\vert f)P(f)$ 。进而，第 $t+1$ 个采样点可通过最大化某个期望效用函数 $S(\mathbf{x}\vert P(f\vert\mathcal{D}_ {1:t}))$ 进行选取（例如，最大化后验均值 $\mu(\mathbf{x}\vert P(f\vert\mathcal{D}_ {1:t}))$ ），即有
 
 $$
 \mathbf{x}_ {t+1}\leftarrow\arg\,\max_ {\mathbf{x}}\,S(\mathbf{x}\vert P(f\vert\mathcal{D}_ {1:t}))\tag{2}
 $$
 
-根据（2）式，在贝叶斯优化中，一般称 $S(\mathbf{x}\vert P(f\vert\mathcal{D}_ {1:t}))$ 为获取函数（acquisition function）。在获得 $\mathbf{x}_ {t+1}$ 处的观测值 $y_ {t+1}=f(\mathbf{x}_ {t+1})$ 之后。重复上述过程，直至达到采样次数上限 $T$ . 最终，算法返回所有观测值中最大的样本点 $f(\mathbf{x}^*)=y_ T^+=\max\{y_ 1,\cdots,y_ t,\cdots,y_ T\}$ 作为优化问题（1）的解。
+根据（2）式，在贝叶斯优化中，一般称 $S(\mathbf{x}\vert P(f\vert\mathcal{D}_ {1:t}))$ 为获取函数（acquisition function）。在获得 $\mathbf{x}_ {t+1}$ 处的观测值 $y_ {t+1}=f(\mathbf{x}_ {t+1})$ 之后。重复上述过程，直至达到采样次数上限 $T$ . 最终，算法返回所有观测值中最大的样本点 $f(\mathbf{x}^* )=y_ T^+=\max\{y_ 1,\cdots,y_ t,\cdots,y_ T\}$ 作为优化问题（1）的解。
 
 显然，贝叶斯优化可以视为一个序贯优化方法，其每步迭代，都求解原始优化问题的一个近似/代理问题（即 $\max_{\mathbf{x}}\,S(\mathbf{x}\vert P(f\vert\mathcal{D}_ {1:t}))$ ），最终得到原问题的解。而使用统计模型对函数 $f(\cdot)$ 进行建模，其意义主要有两点：
 
