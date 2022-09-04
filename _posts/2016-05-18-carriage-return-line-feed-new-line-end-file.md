@@ -123,7 +123,7 @@ $$
 \mathrm{PI}(\mathbf{x})=Pr(f(\mathbf{x})\geq f^+_ t)=\Phi\left(\frac{\mu_ t(\mathbf{x})-f^+_ t}{\sigma_ t(\mathbf{x})}\right)=\Phi(Z)\tag{7}
 $$
 
-其中，$f^+_ t=\max\{f(\mathbf{x}_ 1),\cdots,f(\mathbf{x}_ t)\}$ ，函数 $\Phi(\cdot)$ 是高斯累积分布函数。本质上，$\mbox{PI}(\mathbf{x})$ 可视为效用函数 $\mathcal{I}(f(\mathbf{x}\geq f^+_ t))$ 相对于后验预测分布 $p(y\vert\mathcal{D}_ {1:t})$ 的期望。显然，式（7）过于偏向 ”exploitation“。改进的方法是引入一个 trade-off 因子，
+其中，$f^+_ t=\max\\{f(\mathbf{x}_ 1),\cdots,f(\mathbf{x}_ t)\\}$ ，函数 $\Phi(\cdot)$ 是高斯累积分布函数。本质上，$\mbox{PI}(\mathbf{x})$ 可视为效用函数 $\mathcal{I}(f(\mathbf{x}\geq f^+_ t))$ 相对于后验预测分布 $p(y\vert\mathcal{D}_ {1:t})$ 的期望。显然，式（7）过于偏向 ”exploitation“。改进的方法是引入一个 trade-off 因子，
 
 $$
 \mathrm{PI}(\mathbf{x})=Pr(f(\mathbf{x})\geq f^+_ t+\xi)=\Phi\left(\frac{\mu_ t(\mathbf{x})-f^+_ t-\xi}{\sigma_ t(\mathbf{x})}\right)\tag{8}
@@ -187,5 +187,3 @@ __Cons:__
 [2] Frazier P I. A tutorial on Bayesian optimization[J]. arXiv preprint arXiv:1807.02811, 2018.
 
 [3] Snoek J, Larochelle H, Adams R P. Practical bayesian optimization of machine learning algorithms[J]. Advances in neural information processing systems, 2012, 25.
-
-[BeiYuu]:    http://beiyuu.com  "BeiYuu"
