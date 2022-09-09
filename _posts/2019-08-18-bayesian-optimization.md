@@ -9,10 +9,7 @@ category: blog
 ## 目标问题
 
 贝叶斯优化（Bayesian Optimization）用于解决黑箱无导数全局优化问题（black-box derivative-free global optimization）：
-
-$$
-\max_ {\mathbf{x}\in\mathcal{X}\subset\mathbb{R}^d}\;f(\mathbf{x}).\tag{1}
-$$
+$$\max_ {\mathbf{x}\in\mathcal{X}\subset\mathbb{R}^d}\;f(\mathbf{x}).\tag{1}$$
 
 而与传统的优化问题不同，式（1）具有以下特征：
 
