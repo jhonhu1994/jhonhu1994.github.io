@@ -49,6 +49,7 @@ $$\mathbf{x}_ {t+1}\leftarrow\arg\,\max_ {\mathbf{x}}\,S(\mathbf{x}\vert P(f\ver
 高斯过程几乎是贝叶斯优化中先验分布的标准选择，一方面是由于高斯过程的易解释性和可操作性，另一方面是高斯过程理论上是紧集 $\mathcal{X}\subset\mathbb{R}^d$ 内任意连续函数的统一近似。假设目标函数 $f(\mathbf{x})$ 是高斯过程 $\mathcal{GP}(\mu(\mathbf{x}),\kappa(\mathbf{x},\mathbf{x}'))$  的一个实现，
 $$f(\mathbf{x})\sim\mathcal{GP}(\mu(\mathbf{x}),\kappa(\mathbf{x},\mathbf{x}'),\tag{3}$$
 其中 $\mu(\mathbf{x})$ 是高斯过程的均值函数，$\kappa(\mathbf{x},\mathbf{x}')$ 是高斯过程的核函数，其返回任意样本对 $\mathbf{x}$ 和 $\mathbf{x}'$ 的协方差。设经过前 $t$ 步迭代，获取样本集 $\mathbf{x}_ {1:t}=\\{\mathbf{x}_ 1,\cdots,\mathbf{x}_ t\\}$ ；对于任意新的样本集 $\mathbf{x}'_ {1:s} = \\{\mathbf{x}'_ 1, \cdots, \mathbf{x}'_ s\\}$ ，根据式（3），有多维联合正态分布：
+
 $$\left[\begin{array}{c}
 \mathbf{y}_ {1:t}\\
 \mathbf{y}'_ {1:s}
