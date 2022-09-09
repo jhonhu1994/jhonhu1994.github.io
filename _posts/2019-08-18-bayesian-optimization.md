@@ -60,6 +60,7 @@ $$\left[\begin{array}{c}
 \mathbf{K}_ {x'x} & \mathbf{K}_ {x'x'}\\
 \end{array}\right]
 \right),\tag{4}$$
+
 其中，$\mathbf{y}_ {1:t}=\\{y_ 1,\cdots,y_ t\\}$ （随机变量 $y=f(\mathbf{x})$ ），$\boldsymbol{\mu}_ {1:t}=[\mu(\mathbf{x}_ 1),\cdots,\mu(\mathbf{x}_ t)]^\mathrm{T}$ ，核矩阵 $\mathbf{K}$ 为对应随机变量的协方差矩阵，
 $$\mathbf{K}_ {xx}=\left[\begin{array}{ccc}
 \kappa(\mathbf{x}_ 1,\mathbf{x}_ 1) & \cdots & \kappa(\mathbf{x}_ 1,\mathbf{x}_ t)\\
