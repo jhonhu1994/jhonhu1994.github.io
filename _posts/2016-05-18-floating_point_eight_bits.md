@@ -11,13 +11,13 @@ category: blog
 
 假设现在可用一个字节（8比特）存储一个数（比如 $5.5_ {(10)}$ ）。对于定点数，顾名思义，即 "." 始终固定在给定的存储位的同一位置。图1给出了使用（8，4）定点数表示 $5.5_ {(10)}$ 的示意图：
 
-![5.5 in (8,4) fixed point](C:\Users\Jhon Hu\iCloudDrive\Documents\Blog\jhonhu1994.github.io-main\images\floatingpoint8\fixed_point_5_5.png)
+![5.5 in (8,4) fixed point](/images/floatingpoint8/fixed_point_5_5.png)
 
 形式上看，"." 将8个比特位划分为两部分，"." 左边的位表示整数部分，"." 右边的位表示分数部分。实际存储时，即用两个半字节整数表示一个定点数，只不过小数点后的第一位是半位，下一位是四分之一位，下一位是八分之一位，以此类推。定点数的形式简洁，也易于硬件实现，其缺点在于表示范围受限。以8位定点数为例，上图的（8，4）形式可表示的最大正数为 $2^3 = 8_ {(10)}$ ，即便采用（8，1）的形式也只可以表示到 $2^6=64_ {(10)}$ 。大多数程序在计算过程中需要使用范围更广的数字，因此定点数在当今的计算世界并不常用。
 
 浮点数的思想，本质上可以视为2进制的科学计数法。还是以 $5.5_ {(10)}$ 为例，其二进制形式为 $101.1_ {(2)}$ ，转换为科学计数法即为 $1.011_ {(2)}\times 2^{\color{red} 2}$ ；遵循科学计数法的命名，$1.011_ {(2)}$ 称为尾数（mantissa）或有效数，$\color{red} 2$ 称为指数（exponent）。所以，给定存储位数，浮点数格式可以由以下三个要素定义（以8位浮点数为例）：
 
-![FP8-(1,4,3)](C:\Users\Jhon Hu\iCloudDrive\Documents\Blog\jhonhu1994.github.io-main\images\floatingpoint8\floating_point_FP8.png)
+![FP8-(1,4,3)](/images/floatingpoint8/floating_point_FP8.png)
 
 <center><p><font size="3">FP8 - (1, 4, 3)</font><br/></p></center>
 
@@ -27,19 +27,19 @@ category: blog
 
  来看 FP8-(1,4,3) 可以表示的最大正数为 $1.111_ {(2)}\times 2^{15-7}=111100000_ {(2)}=480_ {(10)}$  ；可以表示的最小正数为 $1.000_ {(2)}\times 2^{0-7}=2^{-7}\approx 0.0078_ {(10)}$ 。显然，相比于（8，4）定点数（不考虑零点，最大可表示正数为 $2^3=8_ {(10)}$ ，最小可表示正数为 $2^{-4}=0.0625_ {(10)}$ ），浮点数可以处理更宽范围内的数。然而，不要忘了，我们始终还是只有8个存储位；换言之，最多也只能表示 $2^8=256$ 个不同的值。下图分别罗列了（8，4）定点数（左图）和 FP8-(1,4,3) 浮点数（右图）所表示的256个数字在数轴上的位置：
 
-![](C:\Users\Jhon Hu\iCloudDrive\Documents\Blog\jhonhu1994.github.io-main\images\floatingpoint8\distribution_of_values.jpg)
+![Distribution of values](/images/floatingpoint8/distribution_of_values.jpg)
 
 可以注意到，定点数是均匀的，其相邻两数的间隔固定为 $2^{-4}=0.0625$ ；而浮点数却并不是均匀分布的，相反，相邻两数之间的差值随着远离零点越来越大。所以，信息密度的不均匀正是使得浮点数得以处理更大范围的数值的原因。而从工程角度讲，这种不均匀的信息密度也是有道理的——保证相对误差较小。
 
 最后给出将一个十进制实数转换（量化）为浮点数的具体过程（注意，尾数的舍入规则是保证 mantissa 最后一位是0，从而使得一半的数向上取”整“，一半的数向下取”整“）：
 
-![Converting a real number to a floating point number](C:\Users\Jhon Hu\iCloudDrive\Documents\Blog\jhonhu1994.github.io-main\images\floatingpoint8\converting_real_to_floating_point.png)
+![Converting a real number to a floating point number](/images/floatingpoint8/converting_real_to_floating_point.png)
 
 ## IEEE 754标准
 
 对于给定的存储位数，分配不同的位数给 exponent 和 mantissa，会得到不同的浮点数格式。今天几乎所有的计算机都遵循 IEEE 754 标准（1985年）来表示浮点数，具体格式如下：
 
-![IEEE 754](C:\Users\Jhon Hu\iCloudDrive\Documents\Blog\jhonhu1994.github.io-main\images\floatingpoint8\ieee_754.png)
+![IEEE 754](/images/floatingpoint8/ieee_754.png)
 
 IEEE 只规定了32位（single/float）、64位（double）和128位浮点数的格式，对于更低位的浮点数则并未给出[^2]。标准的基本规则和前节所述一致，此外，标准使用了两种特殊情况来处理非常小和非常大的值。
 
