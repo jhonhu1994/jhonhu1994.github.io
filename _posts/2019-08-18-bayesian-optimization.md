@@ -63,6 +63,7 @@ $$\left[\begin{array}{c}
 \right),\tag{4}$$
 
 其中，$\mathbf{y}_ {1:t}=\\{y_ 1,\cdots,y_ t\\}$ （随机变量 $y=f(\mathbf{x})$ ），$\boldsymbol{\mu}_ {1:t}=[\mu(\mathbf{x}_ 1),\cdots,\mu(\mathbf{x}_ t)]^\mathrm{T}$ ，核矩阵 $\mathbf{K}$ 为对应随机变量的协方差矩阵，
+
 $$\mathbf{K}_ {xx}=\left[\begin{array}{ccc}
 \kappa(\mathbf{x}_ 1,\mathbf{x}_ 1) & \cdots & \kappa(\mathbf{x}_ 1,\mathbf{x}_ t)\\
 \vdots & \ddots & \vdots\\
@@ -70,20 +71,13 @@ $$\mathbf{K}_ {xx}=\left[\begin{array}{ccc}
 \end{array}\right].\tag{5}$$
 
 现给定观测值 $\mathcal{D}_ {1:t}=\\{(\mathbf{x}_ 1,y_ 1),\,\cdots,\,(\mathbf{x}_ t,y_ t)\\}$ ，则利用贝叶斯统计，可以得到条件分布 $p(\mathbf{y}'_ {1:s}\vert\mathcal{D}_ {1:t})$ 。特别地，根据正态分布的共轭性，$p(\mathbf{y}'_ {1:s}\vert\mathcal{D}_ {1:t})$ 也是一个多维联合正态分布（亦即函数 $f(\mathbf{x})$ 的后验分布 $P(f\vert\mathcal{D}_ {1:t})$ 仍然是一个高斯过程[^1]）。具体对于贝叶斯优化而言，由于其是逐点的序贯决策，只需考虑 $s=1$ 的情况（记 $\mathbf{x}'_ 1$ 为 $\mathbf{x}_ {t+1}$ ），此时，我们有条件分布：
-
-$$
-p(y_ {t+1}\vert\mathcal{D}_ {1:t})=\mathcal{N}\left(\mu_ t(\mathbf{x}_ {t+1}),\,\sigma^2_ t(\mathbf{x}_ {t+1})\right),\tag{6}
-$$
-
+$$p(y_ {t+1}\vert\mathcal{D}_ {1:t})=\mathcal{N}\left(\mu_ t(\mathbf{x}_ {t+1}),\,\sigma^2_ t(\mathbf{x}_ {t+1})\right),\tag{6}$$
 其均值 $\mu_ t(\mathbf{x}_ {t+1})$ 和方差 $\sigma^2_ {t}(\mathbf{x}_ {t+1})$ 分别为
 
-$$
-\begin{split}
+$$\begin{split}
 \mu_ t(\mathbf{x}_ {t+1}) &= \mu(\mathbf{x}_ {t+1}) + \mathbf{k}^{\mathrm{T}}\mathbf{K}^{-1}_ {xx}(\mathbf{y}_ {1:t}-\boldsymbol{\mu}_ {1:t}),\\
 \sigma^2_ {t}(\mathbf{x}_ {t+1}) &= \kappa(\mathbf{x}_ {t=1},\,\mathbf{x}_ {t+1})-\mathbf{k}^\mathrm{T}\mathbf{K}^{-1}_ {xx}\mathbf{k},
-\end{split}\tag{7}
-$$
-
+\end{split}\tag{7}$$
 其中，$\mathbf{k}=[\kappa(\mathbf{x}_ {t+1},\,\mathbf{x}_ 1),\cdots,\kappa(\mathbf{x}_ {t+1},\,\mathbf{x}_ t)]^\mathrm{T}$ 。式（5）本质上是新采样点 $\mathbf{x}_ {t+1}$ 处目标函数值 $y_ {t+1}=f(\mathbf{x}_ {t+1})$ 的后验预测分布（非参数模型）,其代表了我们当前对于目标函数 $f(\mathbf{x})$ 的认知（简单理解，可以认为后验均值 $\mu_ t(\mathbf{x}_ {t+1})$ 是 $f(\mathbf{x}_ {t+1})$ 的一个点估计，后验方差 $\sigma^2_ {t}(\mathbf{x}_ {t+1})$ 则反映了估计的置信程度）。
 
 显然，对于贝叶斯优化，先验分布 $P(f)$ 的选择是至关重要的。若选择高斯过程，则需要确定的，就是高斯过程的核函数 $\kappa(\mathbf{x},\mathbf{x}')$  （先验均值 $\mu(\mathbf{x})$ 一般设为常函数，如 $\mu(\mathbf{x})\equiv 0$ ）。主流的选择有两种：
