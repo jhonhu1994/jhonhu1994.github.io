@@ -30,11 +30,7 @@ $$\max_ {\mathbf{x}\in\mathcal{X}\subset\mathbb{R}^d}\;f(\mathbf{x}).\tag{1}$$
 <center><p><font size="3"><em>随机过程可视为函数的分布，对于任意的自变量 x（指标），其返回函数 f(x) 取值的一个分布（图中虚线）。或者，可以认为，其返回 f(x) 取值的一个估计值（均值 &mu;(x)，图中实线），以及此估计的置信程度（方差 &sigma;(x)，图中紫色区域）</em></font></p></center>
 
 设经过前 $t$ 步迭代，已获得样本集 $\mathcal{D}_ {1:t}=\\{(\mathbf{x}_ 1,y_ 1),\,\cdots,\,(\mathbf{x}_ t,y_ t)\\}$ ；根据贝叶斯理论，我们可以获得目标函数 $f(\mathbf{x})$ 的后验分布：$P(f\vert\mathcal{D}_ {1:t})\propto P(\mathcal{D}_ {1:t}\vert f)P(f)$ 。进而，第 $t+1$ 个采样点可通过最大化某个期望效用函数 $S(\mathbf{x}\vert P(f\vert\mathcal{D}_ {1:t}))$ 进行选取（例如，最大化后验均值 $\mu(\mathbf{x}\vert P(f\vert\mathcal{D}_ {1:t}))$ ），即有
-
-$$
-\mathbf{x}_ {t+1}\leftarrow\arg\,\max_ {\mathbf{x}}\,S(\mathbf{x}\vert P(f\vert\mathcal{D}_ {1:t})).\tag{2}
-$$
-
+$$\mathbf{x}_ {t+1}\leftarrow\arg\,\max_ {\mathbf{x}}\,S(\mathbf{x}\vert P(f\vert\mathcal{D}_ {1:t})).\tag{2}$$
 根据（2）式，在贝叶斯优化中，一般称 $S(\mathbf{x}\vert P(f\vert\mathcal{D}_ {1:t}))$ 为获取函数（acquisition function）。在获得 $\mathbf{x}_ {t+1}$ 处的观测值 $y_ {t+1}=f(\mathbf{x}_ {t+1})$ 之后。重复上述过程，直至达到采样次数上限 $T$ . 最终，算法返回所有观测值中最大的样本点 $f(\mathbf{x}^* )=y_ T^+=\max\\{y_ 1,\cdots,y_ t,\cdots,y_ T\\}$ 作为优化问题（1）的解。
 
 显然，贝叶斯优化可以视为一个序贯优化方法，其每步迭代，都求解原始优化问题的一个近似/代理问题（即 $\max_{\mathbf{x}}\,S(\mathbf{x}\vert P(f\vert\mathcal{D}_ {1:t}))$ ），最终得到原问题的解。而使用统计模型对函数 $f(\cdot)$ 进行建模，其意义主要有两点：
@@ -51,15 +47,9 @@ $$
 ### 1. $P(f)$ 的选择
 
 高斯过程几乎是贝叶斯优化中先验分布的标准选择，一方面是由于高斯过程的易解释性和可操作性，另一方面是高斯过程理论上是紧集 $\mathcal{X}\subset\mathbb{R}^d$ 内任意连续函数的统一近似。假设目标函数 $f(\mathbf{x})$ 是高斯过程 $\mathcal{GP}(\mu(\mathbf{x}),\kappa(\mathbf{x},\mathbf{x}'))$  的一个实现，
-
-$$
-f(\mathbf{x})\sim\mathcal{GP}(\mu(\mathbf{x}),\kappa(\mathbf{x},\mathbf{x}'),\tag{3}
-$$
-
+$$f(\mathbf{x})\sim\mathcal{GP}(\mu(\mathbf{x}),\kappa(\mathbf{x},\mathbf{x}'),\tag{3}$$
 其中 $\mu(\mathbf{x})$ 是高斯过程的均值函数，$\kappa(\mathbf{x},\mathbf{x}')$ 是高斯过程的核函数，其返回任意样本对 $\mathbf{x}$ 和 $\mathbf{x}'$ 的协方差。设经过前 $t$ 步迭代，获取样本集 $\mathbf{x}_ {1:t}=\\{\mathbf{x}_ 1,\cdots,\mathbf{x}_ t\\}$ ；对于任意新的样本集 $\mathbf{x}'_ {1:s} = \\{\mathbf{x}'_ 1, \cdots, \mathbf{x}'_ s\\}$ ，根据式（3），有多维联合正态分布：
-
-$$
-\left[\begin{array}{c}
+$$\left[\begin{array}{c}
 \mathbf{y}_ {1:t}\\
 \mathbf{y}'_ {1:s}
 \end{array}\right]\sim\mathcal{N}\left(\left[\begin{array}{c}
@@ -69,18 +59,13 @@ $$
 \mathbf{K}_ {xx} & \mathbf{K}_ {xx'}\\
 \mathbf{K}_ {x'x} & \mathbf{K}_ {x'x'}\\
 \end{array}\right]
-\right),\tag{4}
-$$
-
+\right),\tag{4}$$
 其中，$\mathbf{y}_ {1:t}=\\{y_ 1,\cdots,y_ t\\}$ （随机变量 $y=f(\mathbf{x})$ ），$\boldsymbol{\mu}_ {1:t}=[\mu(\mathbf{x}_ 1),\cdots,\mu(\mathbf{x}_ t)]^\mathrm{T}$ ，核矩阵 $\mathbf{K}$ 为对应随机变量的协方差矩阵，
-
-$$
-\mathbf{K}_ {xx}=\left[\begin{array}{ccc}
+$$\mathbf{K}_ {xx}=\left[\begin{array}{ccc}
 \kappa(\mathbf{x}_ 1,\mathbf{x}_ 1) & \cdots & \kappa(\mathbf{x}_ 1,\mathbf{x}_ t)\\
 \vdots & \ddots & \vdots\\
 \kappa(\mathbf{x}_ t,\mathbf{x}_ 1) & \cdots & \kappa(\mathbf{x}_ t,\mathbf{x}_ t)
-\end{array}\right].\tag{5}
-$$
+\end{array}\right].\tag{5}$$
 
 现给定观测值 $\mathcal{D}_ {1:t}=\\{(\mathbf{x}_ 1,y_ 1),\,\cdots,\,(\mathbf{x}_ t,y_ t)\\}$ ，则利用贝叶斯统计，可以得到条件分布 $p(\mathbf{y}'_ {1:s}\vert\mathcal{D}_ {1:t})$ 。特别地，根据正态分布的共轭性，$p(\mathbf{y}'_ {1:s}\vert\mathcal{D}_ {1:t})$ 也是一个多维联合正态分布（亦即函数 $f(\mathbf{x})$ 的后验分布 $P(f\vert\mathcal{D}_ {1:t})$ 仍然是一个高斯过程[^1]）。具体对于贝叶斯优化而言，由于其是逐点的序贯决策，只需考虑 $s=1$ 的情况（记 $\mathbf{x}'_ 1$ 为 $\mathbf{x}_ {t+1}$ ），此时，我们有条件分布：
 
