@@ -78,6 +78,7 @@ $$\begin{split}
 \mu_ t(\mathbf{x}_ {t+1}) &= \mu(\mathbf{x}_ {t+1}) + \mathbf{k}^{\mathrm{T}}\mathbf{K}^{-1}_ {xx}(\mathbf{y}_ {1:t}-\boldsymbol{\mu}_ {1:t}),\\
 \sigma^2_ {t}(\mathbf{x}_ {t+1}) &= \kappa(\mathbf{x}_ {t=1},\,\mathbf{x}_ {t+1})-\mathbf{k}^\mathrm{T}\mathbf{K}^{-1}_ {xx}\mathbf{k},
 \end{split}\tag{7}$$
+
 其中，$\mathbf{k}=[\kappa(\mathbf{x}_ {t+1},\,\mathbf{x}_ 1),\cdots,\kappa(\mathbf{x}_ {t+1},\,\mathbf{x}_ t)]^\mathrm{T}$ 。式（5）本质上是新采样点 $\mathbf{x}_ {t+1}$ 处目标函数值 $y_ {t+1}=f(\mathbf{x}_ {t+1})$ 的后验预测分布（非参数模型）,其代表了我们当前对于目标函数 $f(\mathbf{x})$ 的认知（简单理解，可以认为后验均值 $\mu_ t(\mathbf{x}_ {t+1})$ 是 $f(\mathbf{x}_ {t+1})$ 的一个点估计，后验方差 $\sigma^2_ {t}(\mathbf{x}_ {t+1})$ 则反映了估计的置信程度）。
 
 显然，对于贝叶斯优化，先验分布 $P(f)$ 的选择是至关重要的。若选择高斯过程，则需要确定的，就是高斯过程的核函数 $\kappa(\mathbf{x},\mathbf{x}')$  （先验均值 $\mu(\mathbf{x})$ 一般设为常函数，如 $\mu(\mathbf{x})\equiv 0$ ）。主流的选择有两种：
@@ -100,46 +101,30 @@ $$\begin{split}
 
 #### 1）Probability of Improvement
 
-$$
-\mathrm{PI}(\mathbf{x})=Pr(f(\mathbf{x})\geq f^+_ t)=\Phi\left(\frac{\mu_ t(\mathbf{x})-f^+_ t}{\sigma_ t(\mathbf{x})}\right)=\Phi(Z),\tag{8}
-$$
-
+$$\mathrm{PI}(\mathbf{x})=Pr(f(\mathbf{x})\geq f^+_ t)=\Phi\left(\frac{\mu_ t(\mathbf{x})-f^+_ t}{\sigma_ t(\mathbf{x})}\right)=\Phi(Z),\tag{8}$$
 其中，$f^+_ t=\max\\{f(\mathbf{x}_ 1),\cdots,f(\mathbf{x}_ t)\\}$ ，函数 $\Phi(\cdot)$ 是高斯累积分布函数。本质上，$\mbox{PI}(\mathbf{x})$ 可视为效用函数 $\mathcal{I}(f(\mathbf{x}\geq f^+_ t))$ 相对于后验预测分布 $p(y\vert\mathcal{D}_ {1:t})$ 的期望。显然，式（7）过于偏向 ”exploitation“。改进的方法是引入一个 trade-off 因子，
-
-$$
-\mathrm{PI}(\mathbf{x})=Pr(f(\mathbf{x})\geq f^+_ t+\xi)=\Phi\left(\frac{\mu_ t(\mathbf{x})-f^+_ t-\xi}{\sigma_ t(\mathbf{x})}\right).\tag{9}
-$$
-
+$$\mathrm{PI}(\mathbf{x})=Pr(f(\mathbf{x})\geq f^+_ t+\xi)=\Phi\left(\frac{\mu_ t(\mathbf{x})-f^+_ t-\xi}{\sigma_ t(\mathbf{x})}\right).\tag{9}$$
 若 $\xi$ 很小，算法倾向于”局部最优“；当 $\xi$ 很大，算法倾向于全局搜索。
 
 #### 2）Expected Improvement
 
 在 $\mbox{PI}(\mathbf{x})$ 的基础上，将增益幅度考虑进去即得到 expected improvement 获取函数，
 
-$$
-\begin{split}
+$$\begin{split}
 \mbox{EI}(\mathbf{x})&=\mathbb{E}\left[\max\{0,\,f(\mathbf{x})-f^+_ t\}\vert\mathcal{D}_ {1:t}\right]\\
 &=\begin{cases}
 (\mu(\mathbf{x})-f^+_ t)\Phi(Z)+\sigma_ t(\mathbf{x})\mathcal{N}(Z), & \mathrm{if}\;\; \sigma_ t(\mathbf{x})>0\\
 0, & \mathrm{if}\;\; \sigma_ t(\mathbf{x})=0
 \end{cases}
-\end{split}\tag{10}
-$$
+\end{split}\tag{10}$$
 
 显然，使得 $\mbox{EI}(\mathbf{x})$ 增大，要么增大后验均值 $\mu_ t(\mathbf{x}_ {t+1})$ ，要么增大后验方差。获取函 $\mbox{EI}(\mathbf{x})$ 显式地实现了 “exploitation _vs_ exporation" 的权衡。类似于对 $\mbox{PI}(\mathbf{x})$ 的处理，也可引入一个 trade-off 因子增加 $\mbox{EI}(\mathbf{x})$ 的灵活性，
-
-$$
-\mbox{EI}(\mathbf{x})=\mathbb{E}\left[\max\{0,\,f(\mathbf{x})-f^+_ t-\xi\}\,\vert\,\mathcal{D}_ {1:t}\right].\tag{11}
-$$
-
+$$\mbox{EI}(\mathbf{x})=\mathbb{E}\left[\max\{0,\,f(\mathbf{x})-f^+_ t-\xi\}\,\vert\,\mathcal{D}_ {1:t}\right].\tag{11}$$
 在贝叶斯优化中，$\mbox{EI}(\mathbf{x})$ 是获取函数最常见的选择，且很多时候效果拔群。
 
 #### 3）Upper Confidence Bound
 
-$$
-\mbox{UCB}(\mathbf{x}) = \mu_ t(\mathbf{x})+\beta_ t\sigma_ t(\mathbf{x}).\tag{12}
-$$
-
+$$\mbox{UCB}(\mathbf{x}) = \mu_ t(\mathbf{x})+\beta_ t\sigma_ t(\mathbf{x}).\tag{12}$$
 从形式上看，$\mbox{UCB}(\mathbf{x})$ 很简单，就是后验均值和后验方差的简单加权，直白地实现了 “exploitation _vs_ exporation" 的权衡。但事实上，置信上界函数确实一个理论上很完美的获取函数选择。其思想来源于多臂赌博机（multi-armed bandit）中的 lower confidence bound 算法。通过将贝叶斯优化建模为一个多臂赌博机，从理论上可以证明，使用 $\mbox{UCB}(\mathbf{x})$ 作为获取函数的贝叶斯优化大概率收敛。特别地，参数 $\beta_ t$ 的具体选择也有理论上的指导。
 
 除上述选择外，一些更为复杂的获取函数包括但不限于（Predicative）Entropy Search，Thompson Sampling，和 Knowledge Gradient 等[^4]。
