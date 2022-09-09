@@ -31,7 +31,7 @@ $$
 
 ![stochastic process and function](/images/bayesianoptimization/stochastic_process_and_function.png)
 
-<center><p><font size="3"><em>随机过程可视为函数的分布，对于任意的自变量 x（指标），其返回函数 f(x) 取值的一个分布（图中虚线）。或者，可以认为，其返回 f(x) 取值的一个估计值（均值 &mu;(x)，图中实线），以及此估计的置信程度（方差 &sigma;(x)，图中紫色区域）</em></font><br/></p></center>
+<center><p><font size="3"><em>随机过程可视为函数的分布，对于任意的自变量 x（指标），其返回函数 f(x) 取值的一个分布（图中虚线）。或者，可以认为，其返回 f(x) 取值的一个估计值（均值 &mu;(x)，图中实线），以及此估计的置信程度（方差 &sigma;(x)，图中紫色区域）</em></font></p></center>
 
 设经过前 $t$ 步迭代，已获得样本集 $\mathcal{D}_ {1:t}=\\{(\mathbf{x}_ 1,y_ 1),\,\cdots,\,(\mathbf{x}_ t,y_ t)\\}$ ；根据贝叶斯理论，我们可以获得目标函数 $f(\mathbf{x})$ 的后验分布：$P(f\vert\mathcal{D}_ {1:t})\propto P(\mathcal{D}_ {1:t}\vert f)P(f)$ 。进而，第 $t+1$ 个采样点可通过最大化某个期望效用函数 $S(\mathbf{x}\vert P(f\vert\mathcal{D}_ {1:t}))$ 进行选取（例如，最大化后验均值 $\mu(\mathbf{x}\vert P(f\vert\mathcal{D}_ {1:t}))$ ），即有
 
@@ -98,7 +98,7 @@ $$
 \begin{split}
 \mu_ t(\mathbf{x}_ {t+1}) &= \mu(\mathbf{x}_ {t+1}) + \mathbf{k}^{\mathrm{T}}\mathbf{K}^{-1}_ {xx}(\mathbf{y}_ {1:t}-\boldsymbol{\mu}_ {1:t}),\\
 \sigma^2_ {t}(\mathbf{x}_ {t+1}) &= \kappa(\mathbf{x}_ {t=1},\,\mathbf{x}_ {t+1})-\mathbf{k}^\mathrm{T}\mathbf{K}^{-1}_ {xx}\mathbf{k}
-\end{split},\tag{7}
+\end{split}\tag{7}
 $$
 
 其中，$\mathbf{k}=[\kappa(\mathbf{x}_ {t+1},\,\mathbf{x}_ 1),\cdots,\kappa(\mathbf{x}_ {t+1},\,\mathbf{x}_ t)]^\mathrm{T}$ 。式（5）本质上是新采样点 $\mathbf{x}_ {t+1}$ 处目标函数值 $y_ {t+1}=f(\mathbf{x}_ {t+1})$ 的后验预测分布（非参数模型）,其代表了我们当前对于目标函数 $f(\mathbf{x})$ 的认知（简单理解，可以认为后验均值 $\mu_ t(\mathbf{x}_ {t+1})$ 是 $f(\mathbf{x}_ {t+1})$ 的一个点估计，后验方差 $\sigma^2_ {t}(\mathbf{x}_ {t+1})$ 则反映了估计的置信程度）。
@@ -146,7 +146,7 @@ $$
 (\mu(\mathbf{x})-f^+_ t)\Phi(Z)+\sigma_ t(\mathbf{x})\mathcal{N}(Z), & \mathrm{if}\;\; \sigma_ t(\mathbf{x})>0\\
 0, & \mathrm{if}\;\; \sigma_ t(\mathbf{x})=0
 \end{cases}
-\end{split}.\tag{10}
+\end{split}\tag{10}
 $$
 
 显然，使得 $\mbox{EI}(\mathbf{x})$ 增大，要么增大后验均值 $\mu_ t(\mathbf{x}_ {t+1})$ ，要么增大后验方差。获取函 $\mbox{EI}(\mathbf{x})$ 显式地实现了 “exploitation _vs_ exporation" 的权衡。类似于对 $\mbox{PI}(\mathbf{x})$ 的处理，也可引入一个 trade-off 因子增加 $\mbox{EI}(\mathbf{x})$ 的灵活性，
