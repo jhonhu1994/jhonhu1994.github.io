@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 使用Github Pages建独立博客
-description: 转载自 Beiyuu‘s Blog
+description: 转载自 Beiyuu‘s Blog。
 category: blog
 ---
 
