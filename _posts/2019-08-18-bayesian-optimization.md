@@ -2,7 +2,7 @@
 layout: head
 layout: post
 title: 贝叶斯优化（Bayesian Optimization）
-description: 贝叶斯优化可用于解决黑箱无导数全局优化问题。近来，其在机器学习的超参数优化任务中应用颇多，尤其是对于深度神经网络和强化学习。
+description: 贝叶斯优化可用于解决黑箱无导数全局优化问题，近年来在机器学习的超参数优化任务中应用颇多，尤其对于深度神经网络和强化学习。
 category: blog
 ---
 
