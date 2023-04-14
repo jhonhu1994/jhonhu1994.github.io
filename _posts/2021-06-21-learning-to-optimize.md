@@ -9,16 +9,16 @@ category: blog
 ## 目标问题
 
 对于一个连续优化问题 $\min _{\mathbf{x}\in\mathcal{X}}\; f(\mathbf{x})$ ，可以使用迭代的方法获得其（局部）最优解：
-$$
-\mathbf{x}_ {t+1}\leftarrow\mathbf{x}_ {t}+\mathbf{g}(\mathbf{z}_ t;\phi),\tag{1}
-$$
+
+$$\mathbf{x}_ {t+1}\leftarrow\mathbf{x}_ {t}+\mathbf{g}(\mathbf{z}_ t;\phi),\tag{1}$$
+
 其中，$\mathbf{z}_ t$ 是第 $t$ 步迭代时可用的信息（例如，已有的迭代点 $\mathbf{x}_ 0,\,\mathbf{x}_ 1,\,\cdots,\,\mathbf{x}_ t$ 以及它们的梯度信息等）；$\mathbf{g}$ 为某个映射函数，一般由 $\phi$ 参数化。Learning to Optimize（L2O）的任务即是在映射函数 $\mathbf{g}$ 的参数空间内学习一个（对于某类问题 $f(\mathbf{x};\theta)$）好的 $\phi$。整体而言，现有的 L2O 方法可分为 model-free 和 model-based 两类[<sup>[1]</sup>](#refer-anchor-1)。前者使用通用的神经网络架构实现 $\mathbf{g}$，不参考任何已知的解析优化算法。后者则针对一个现有的解析优化方法，将其整体或部分的迭代更新规则建模为一个可学习的架构，是目前的新方向。 
 
 ## Model-Free L2O
 
 ### 1. LSTM-based L2O
 
-![LSTM-based L2O](C:\Users\Jhon Hu\iCloudDrive\Documents\Blog\jhonhu1994.github.io-main\images\Learningtooptimize\LSTM-based_L2O.png)
+![LSTM-based L2O](/images/Learningtooptimize/LSTM-based_L2O.png)
 
 <center><p><font size="3"><em>Fig 1. LSTM-based L2O (unrolled form)</em></font><br/></p></center>
 
@@ -32,13 +32,13 @@ $$
 
 图 1 的主要问题在于，当优化变量的维度较高时，需要学习的参数过多（标准的 LSTM，一个隐藏单元包含 8 个全连接层）。因此，常见的做法是，采用 Coordinate-wise 的架构[<sup>[2]</sup>](#refer-anchor-1)，如图 2 所示，优化变量 $\mathbf{x}_ t$ 的每一个分量的更新单独使用一个 LSTM 实现。同时为了进一步减少网络的参数数量，所有的 LSTM 共享权值，每个优化分量的不同行为通过各自的激活函数实现。
 
-![Coordinate-wise LSTM-based L2O](C:\Users\Jhon Hu\iCloudDrive\Documents\Blog\jhonhu1994.github.io-main\images\Learningtooptimize\Coordinated-wise_LSTM-based_L2O.png)
+![Coordinate-wise LSTM-based L2O](/images/Learningtooptimize/Coordinated-wise_LSTM-based_L2O.png)
 
 <center><p><font size="3"><em>Fig 2. Coordinate-wise LSTM-based L2O (one step)</em></font><br/></p></center>
 
 采用 Coordinate-wise 的架构允许我们使用更小的网络，但其忽略了每个分量之间的联系[^1]；权值共享在减少参数数量的同时使得优化器对于优化分量的顺序具有不变性，但其忽略了不同分量可能存在的差异性。对于后者，可以根据优化问题的结构，对优化变量进行分组，不同组采用不同的网络参数，组内所有分量则权值共享。对于前者，可以考虑采用 Hierarchical 的网络架构[<sup>[3]</sup>](#refer-anchor-1)，如图 3 所示：
 
-![Hierarchical LSTM-based L2O](C:\Users\Jhon Hu\iCloudDrive\Documents\Blog\jhonhu1994.github.io-main\images\Learningtooptimize\Hierarchical_LSTM-based_L2O.png)
+![Hierarchical LSTM-based L2O](/images/Learningtooptimize/Hierarchical_LSTM-based_L2O.png)
 
 <center><p><font size="3"><em>Fig 3. Hierarchical LSTM-based L2O</em></font><br/></p></center>
 
@@ -46,7 +46,7 @@ $$
 
 LSTM-based L2O 面临的一个主要困境是，受限于深层网络训练的困难性，实际中网络的展开长度不能设置过高（10~20 左右）。那么对于一个需要较多步迭代的问题，整个优化轨迹就必须被划分为连续的较短片段，每个片段调用 LSTM 优化器进行优化。这会导致训练好的优化程序在测试时表现出不稳定性并产生低质量的解（截断偏差），如图 4 中黄色曲线所示：
 
-![The Behavior of different Optimizers](C:\Users\Jhon Hu\iCloudDrive\Documents\Blog\jhonhu1994.github.io-main\images\Learningtooptimize\Behavior_of_Optimizers.png)
+![The Behavior of different Optimizers](/images/Learningtooptimize/Behavior_of_Optimizers.png)
 
 <center><p><font size="3"><em>Fig 4. The Behavior of different Optimizers</em></font><br/></p></center>
 
@@ -56,7 +56,7 @@ LSTM-based L2O 面临的一个主要困境是，受限于深层网络训练的�
 
 ### 2. RL-based L2O[<sup>[5]</sup>](#refer-anchor-1)
 
-<img src="C:\Users\Jhon Hu\iCloudDrive\Documents\Blog\jhonhu1994.github.io-main\images\Learningtooptimize\Unconstrained_continuous_optimization.png"  width=70%/>
+<img src="/images/Learningtooptimize/Unconstrained_continuous_optimization.png"  width=70%/>
 
 <center><p><font size="3"><em>Fig 5. Unconstrained Continuous Optimization</em></font><br/></p></center>
 
@@ -101,7 +101,7 @@ $$
 $$
 显然，式 (7) 可以视为神经网络中的一层。因此，ISTA 算法完全可以使用一个神经网络实现，其一次迭代即对应网络中的一层，如图 6 所示——
 
-![Unfolding ISTA](C:\Users\Jhon Hu\iCloudDrive\Documents\Blog\jhonhu1994.github.io-main\images\Learningtooptimize\Unfolding_ISTA.png)
+![Unfolding ISTA](/images/Learningtooptimize/Unfolding_ISTA.png)
 
 <center><p><font size="3"><em>Fig 6. Unfolding ISTA</em></font><br/></p></center>
 
@@ -116,7 +116,7 @@ $$
 
 对于迭代中包含复杂/非解析操作的优化算法，一种解决方法是将复杂的算子使用神经网络实现。例如，对于问题（5），当考虑比 $l_ 1$ 正则化更复杂的正则化函数时，后向的邻近算子可能没有解析表示，此时就可以使用一个神经网络来实现它。或者，对于带约束优化问题，若其约束条件较为复杂，到其可行域的投影算子不具简单表达，同样使用一个神经网络来实现投影算子[<sup>[8]</sup>](#refer-anchor-1)[<sup>[9]</sup>](#refer-anchor-1)，则整体上即可使用投影梯度方法来求解目标问题，如图 7 所示——
 
-![Projected gradient descent using a CNN as the projector](C:\Users\Jhon Hu\iCloudDrive\Documents\Blog\jhonhu1994.github.io-main\images\Learningtooptimize\PGD_using_CNN.png)
+![Projected gradient descent using a CNN as the projector](/images/Learningtooptimize/PGD_using_CNN.png)
 
 <center><p><font size="3"><em>Fig 7. Projected gradient descent using a CNN as the projector</em></font><br/></p></center>
 
