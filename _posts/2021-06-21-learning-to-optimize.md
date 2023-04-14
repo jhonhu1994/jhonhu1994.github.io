@@ -56,7 +56,7 @@ LSTM-based L2O 面临的一个主要困境是，受限于深层网络训练的�
 
 ### 2. RL-based L2O[<sup>[5]</sup>](#refer-anchor-1)
 
-<img src="/images/Learningtooptimize/Unconstrained_continuous_optimization.png"  width=70%/>
+![LSTM-based L2O](/images/Learningtooptimize/Unconstrained_continuous_optimization.png)
 
 <center><p><font size="3"><em>Fig 5. Unconstrained Continuous Optimization</em></font><br/></p></center>
 
