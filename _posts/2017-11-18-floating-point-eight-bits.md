@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 8位浮点数
+title: 8 位浮点数
 description: 大部分时候，程序员无需关心浮点数的实现原理。但涉及低位宽浮点数计算时，对浮点数一无所知会带来意想不到的结果。
 category: blog
 ---
