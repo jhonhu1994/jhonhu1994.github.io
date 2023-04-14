@@ -8,7 +8,7 @@ category: blog
 
 ## 目标问题
 
-对于一个连续优化问题 $\min _{\mathbf{x}\in\mathcal{X}}\; f(\mathbf{x})$ ，可以使用迭代的方法获得其（局部）最优解：
+对于一个连续优化问题 $\min_ {\mathbf{x}\in\mathcal{X}}\; f(\mathbf{x})$ ，可以使用迭代的方法获得其（局部）最优解：
 
 $$\mathbf{x}_ {t+1}\leftarrow\mathbf{x}_ {t}+\mathbf{g}(\mathbf{z}_ t;\phi),\tag{1}$$
 
@@ -22,12 +22,12 @@ $$\mathbf{x}_ {t+1}\leftarrow\mathbf{x}_ {t}+\mathbf{g}(\mathbf{z}_ t;\phi),\tag
 
 <center><p><font size="3"><em>Fig 1. LSTM-based L2O (unrolled form)</em></font><br/></p></center>
 
-优化过程可以看作是迭代更新 $\mathbf{x}$ 的轨迹，故使用循环神经网络（recurrent neural network，RNN）对更新规则建模是自然的选择。图 1 给出了使用一个长短时记忆网络（long short-term memory，LSTM）实现无约束优化问题 $\min _{\mathbf{x}\in\mathbb{R}^n}\, f(\mathbf{x})$ 的一阶更新的框图，具体而言，即有
-$$
-\mathcal{L}(\phi)=\mathbb{E}_ {f}\left[\sum_ {t=1}^ {T}w_ tf(\mathbf{x}_ t)\right],\;\text{where}\;\;\mathbf{x}_ {t+1}=\mathbf{x}_ t+\mathbf{g}_ t,\;\text{and}\;\begin{bmatrix}\mathbf{g}_ t\\
+优化过程可以看作是迭代更新 $\mathbf{x}$ 的轨迹，故使用循环神经网络（recurrent neural network，RNN）对更新规则建模是自然的选择。图 1 给出了使用一个长短时记忆网络（long short-term memory，LSTM）实现无约束优化问题 $\min_ {\mathbf{x}\in\mathbb{R}^n}\, f(\mathbf{x})$ 的一阶更新的框图，具体而言，即有
+
+$$\mathcal{L}(\phi)=\mathbb{E}_ {f}\left[\sum_ {t=1}^ {T}w_ tf(\mathbf{x}_ t)\right],\;\text{where}\;\;\mathbf{x}_ {t+1}=\mathbf{x}_ t+\mathbf{g}_ t,\;\text{and}\;\begin{bmatrix}\mathbf{g}_ t\\
 h_ {t+1}
-\end{bmatrix}=m\left(\nabla f(\mathbf{x}_ t),\,h_ t,\,\phi\right),\tag{2}
-$$
+\end{bmatrix}=m\left(\nabla f(\mathbf{x}_ t),\,h_ t,\,\phi\right),\tag{2}$$
+
 其中，$m$ 代表 LSTM，其根据当前时刻的输入（当前点的梯度 $\nabla f(\mathbf{x}_ t)$ ）和网络状态 $h_ {t}$ （包含历史梯度信息），输出更新步 $\mathbf{g}_ t$；$\phi$ 是待学习的网络参数，$\mathcal{L}(\cdot)$ 是损失函数（loss function），T 为LSTM 的展开长度（horizon）。
 
 图 1 的主要问题在于，当优化变量的维度较高时，需要学习的参数过多（标准的 LSTM，一个隐藏单元包含 8 个全连接层）。因此，常见的做法是，采用 Coordinate-wise 的架构[<sup>[2]</sup>](#refer-anchor-1)，如图 2 所示，优化变量 $\mathbf{x}_ t$ 的每一个分量的更新单独使用一个 LSTM 实现。同时为了进一步减少网络的参数数量，所有的 LSTM 共享权值，每个优化分量的不同行为通过各自的激活函数实现。
@@ -62,17 +62,16 @@ LSTM-based L2O 面临的一个主要困境是，受限于深层网络训练的�
 
 #### 1) 问题
 
-针对某个无约束优化问题 $\min _{\mathbf{x}\in\mathcal{X}}\; f(\mathbf{x})$ ，学习最优的一阶优化算法，即
-$$
-\mathbf{x}_ {t+1}=\mathbf{x}_ t+\mathbf{F}\left(f(\mathbf{x}_ 1),\cdots,f(\mathbf{x}_ n);\,\nabla f(\mathbf{x}_ 1),\cdots,\nabla f(\mathbf{x}_ n)\right).\tag{3}
-$$
+针对某个无约束优化问题 $\min_ {\mathbf{x}\in\mathcal{X}}\; f(\mathbf{x})$ ，学习最优的一阶优化算法，即
+
+$$\mathbf{x}_ {t+1}=\mathbf{x}_ t+\mathbf{F}\left(f(\mathbf{x}_ 1),\cdots,f(\mathbf{x}_ n);\,\nabla f(\mathbf{x}_ 1),\cdots,\nabla f(\mathbf{x}_ n)\right).\tag{3}$$
 
 #### 2) 方法
 
 优化算法的执行可视为马尔可夫决策过程（Markov Decision Process, MDP）中的一个策略的执行，目标就是找到最优的策略（任何一个特定的优化算法，例如梯度下降、共轭梯度法、拟Newton法等，都是一个（确定性）策略；所有的一阶优化算法组成了策略空间）。因此，可以将其建模为一个具有连续动作空间和状态空间的强化学习任务（Policy-based），即
-$$
-\mathbf{F}\left(f(\mathbf{x}_ 1),\cdots,f(\mathbf{x}_ n);\,\nabla f(\mathbf{x}_ 1),\cdots,\nabla f(\mathbf{x}_ n)\right)=\pi(s_ n),\tag{4}
-$$
+
+$$\mathbf{F}\left(f(\mathbf{x}_ 1),\cdots,f(\mathbf{x}_ n);\,\nabla f(\mathbf{x}_ 1),\cdots,\nabla f(\mathbf{x}_ n)\right)=\pi(s_ n),\tag{4}$$
+
 其中，状态 $s_ n=\{\mathbf{x}_ n,\nabla f(\mathbf{x}_ n),\cdots,\nabla f(\mathbf{x}_ {n-T+1}),f(\mathbf{x}_ n),\cdots,f(\mathbf{x}_ {n-T+1})\}$，动作空间是所有的一阶更新步（负梯度、共轭梯度、拟 Newton步、Someone Else），惩罚（奖励）函数为 $c(s_ n)=f(\mathbf{x}_ n)$。策略 $\pi$ （的均值）使用两层前馈神经网络参数化：隐藏层包含50个神经元，使用Softplus 激活函数；输出层使用线性激活函数；网络输入状态信息时排除 $\mathbf{x}_ n$​；使用引导策略搜索方法（Guided Policy Search）训练网络。
 
 ## Model-Based L2O
@@ -82,30 +81,30 @@ Model-Free L2O 使用通用的神经网络架构实现优化变量的迭代更�
 ### 1. Algorithm Unfolding
 
 Algorithm Unfolding 或 Deep Unfolding 的思想起源是很具有启发性的。考虑 Lasso 问题：
-$$
-\min_ {\mathbf{x}\in\mathbb{R}^ n}\;\frac{1}{2}\lVert\mathbf{y}-\mathbf{W}\mathbf{x}\rVert_ 2^2+\theta\lVert\mathbf{x}\rVert_ 1^ 1,\tag{5}
-$$
+
+$$\min_ {\mathbf{x}\in\mathbb{R}^ n}\;\frac{1}{2}\lVert\mathbf{y}-\mathbf{W}\mathbf{x}\rVert_ 2^2+\theta\lVert\mathbf{x}\rVert_ 1^ 1,\tag{5}$$
+
 其中，$\theta>0$ 是正则化因子，用于控制解的稀疏性。求解问题 (5) 的经典方法是迭代收缩阈值算法（Iterative Shrinkage and Thresholding Algorithm, ISTA），其属于前向后向分裂（Forward-backward Splitting）方法在 Lasso 问题中的应用，每一步更新包含前向的梯度下降和后向的邻近算子更新，即
-$$
-\mathbf{x}_ {k+1}=\mathcal{S}_ {\lambda}\{\mathbf{x}_ k-\mu\mathbf{W}^ \mathrm{T}(\mathbf{W}\mathbf{x}_ k-\mathbf{y})\}.\tag{6}
-$$
+
+$$\mathbf{x}_ {k+1}=\mathcal{S}_ {\lambda}\{\mathbf{x}_ k-\mu\mathbf{W}^ \mathrm{T}(\mathbf{W}\mathbf{x}_ k-\mathbf{y})\}.\tag{6}$$
+
 其中 $\mu$ 为梯度更新的步长，一般选择为 $\frac{1}{\mathrm{eig}_ {\max}(\mathbf{W}\mathbf{W}^\mathrm{T})}$；$\mathcal{S}_ \lambda\{x\}=\mathrm{sign}(x)(\lvert x\rvert-\lambda)_ +$ 为收缩算子，其来源于 $l_1$ 范数的邻近算子——
-$$
-\mathrm{prox}_ \lambda\{\mathbf{z}\}:\mathbf{z}\rightarrow\arg\min_ {\mathbf{x}}\lVert\mathbf{x}\rVert_ 1+\frac{1}{2\lambda}\lVert\mathbf{x}-\mathbf{y}\rVert_ 2^ 2,
-$$
+
+$$\mathrm{prox}_ \lambda\{\mathbf{z}\}:\mathbf{z}\rightarrow\arg\min_ {\mathbf{x}}\lVert\mathbf{x}\rVert_ 1+\frac{1}{2\lambda}\lVert\mathbf{x}-\mathbf{y}\rVert_ 2^ 2,$$
+
 收缩因子 $\lambda$ 一般取 $\theta\mu$。现定义矩阵 $\mathbf{W}_ \mathrm{t}\triangleq\mathbf{I}-\mu\mathbf{W}\mathbf{W}^\mathrm{T}$ 和 $\mathbf{W}_ \mathrm{e}\triangleq\mu\mathbf{W}^\mathrm{T}$，则式 (6) 可进一步表示为
-$$
-\mathbf{x}_ {k+1}=\mathcal{S}_ \theta\{\mathbf{W}_ \mathrm{t}\mathbf{x}_ k+\mathbf{W}_ \mathrm{e}\mathbf{y}\},\\
+
+$$\mathbf{x}_ {k+1}=\mathcal{S}_ \theta\{\mathbf{W}_ \mathrm{t}\mathbf{x}_ k+\mathbf{W}_ \mathrm{e}\mathbf{y}\},\\
 \;\;\;\;\swarrow\quad\;\;\;\searrow\qquad\quad\downarrow\\
-\;\mathrm{active}\quad\mathrm{weight}\qquad\mathrm{bias}\tag{7}
-$$
+\;\mathrm{active}\quad\mathrm{weight}\qquad\mathrm{bias}\tag{7}$$
+
 显然，式 (7) 可以视为神经网络中的一层。因此，ISTA 算法完全可以使用一个神经网络实现，其一次迭代即对应网络中的一层，如图 6 所示——
 
 ![Unfolding ISTA](/images/Learningtooptimize/Unfolding_ISTA.png)
 
 <center><p><font size="3"><em>Fig 6. Unfolding ISTA</em></font><br/></p></center>
 
-进一步的，由于引入了可学习的架构，我们可以把矩阵 $\mathbf{W}_ \mathrm{t}$，$\mathbf{W}_ \mathrm{e}$ 以及收缩因子 $\theta$ 都作为网络的参数进行学习优化，以尽可能地加快算法的收敛速度。对于式 (5) 的无约束问题，网络的损失函数可以直接定义为目标函数以实现无监督训练。此外，最早提出此方法的文献 [[6]](#refer-anchor-1) 决定每层共享权值，则图 6 可以视为一个 RNN 沿时间线展开的结果，因此得名 Algorithm/Deep Unfolding。在最近的研究中，不同的层使用不同的参数，以更复杂的训练为代价进一步加快算法的收敛速度。此外，除  $l_ 1$ 正则化，其它包括 $l_ 0$，$l_ \infty$ 和更一般的  $l_ p$ 正则化问题，其对应的前向后向分裂算法的展开也陆续地被提出。（事实上，常见的神经网络的激活函数本质上都可以视为是某个函数的邻近算子[<sup>[7]</sup>](#refer-anchor-1)：ReLu 函数可以视为是正半区间上示性函数 $\iota_ {[0,+\infty[}(x)$ 的邻近算子，tanh 函数可以视为函数 $\phi(x)=\frac{1}{2}(\iota_ {[-1,+1]}(x)+1)((1+x)\ln(1+x)+(1-x)\ln(1-x)-x^2)$ 的邻近算子。在这个意义上，前向后向分裂算法属于很适合进行展开的一类优化算法。）
+进一步的，由于引入了可学习的架构，我们可以把矩阵 $\mathbf{W}_ \mathrm{t}$，$\mathbf{W}_ \mathrm{e}$ 以及收缩因子 $\theta$ 都作为网络的参数进行学习优化，以尽可能地加快算法的收敛速度[^2]。对于式 (5) 的无约束问题，网络的损失函数可以直接定义为目标函数以实现无监督训练[^3]。此外，最早提出此方法的文献 [[6]](#refer-anchor-1) 决定每层共享权值，则图 6 可以视为一个 RNN 沿时间线展开的结果，因此得名 Algorithm/Deep Unfolding。在最近的研究中，不同的层使用不同的参数，以更复杂的训练为代价进一步加快算法的收敛速度。此外，除  $l_ 1$ 正则化，其它包括 $l_ 0$，$l_ \infty$ 和更一般的  $l_ p$ 正则化问题，其对应的前向后向分裂算法的展开也陆续地被提出。（事实上，常见的神经网络的激活函数本质上都可以视为是某个函数的邻近算子[<sup>[7]</sup>](#refer-anchor-1)：ReLu 函数可以视为是正半区间上示性函数 $\iota_ {[0,+\infty[}(x)$ 的邻近算子，tanh 函数可以视为函数 $\phi(x)=\frac{1}{2}(\iota_ {[-1,+1]}(x)+1)((1+x)\ln(1+x)+(1-x)\ln(1-x)-x^2)$ 的邻近算子。在这个意义上，前向后向分裂算法属于很适合进行展开的一类优化算法。）
 
 [^2]: 实验显示，展开后的 ISTA 算法达到相同的收敛效果所需的网络层数，可以比其解析形式的迭代次数小上一个数量级。
 [^3]: 对于带约束的优化问题，可能就需要进行监督训练了，一个特例是，若可以保证网络的每一层输出都在可行域内，则同样可以使用目标函数作为损失函数实现无监督学习。
