@@ -15,7 +15,7 @@ $$\min_ {\mathbf{x}\in\mathbb{R}^n}&f(\mathbf{x})\qquad\qquad\qquad\qquad\qquad\
 
 定义其 Lagrangian 函数为
 
-$$L(\mathbf{x},\symbfup{\lambda})=f(\mathbf{x})-\symbfup{\lambda}^\mathrm{T}\mathbf{h}(\mathbf{x})=f(\mathbf{x})-\sum_ {i=1}^{m}\lambda_ ih_ i(\mathbf{x}),\tag{2}$$
+$$L(\mathbf{x},\pmb{\lambda})=f(\mathbf{x})-\pmb{\lambda}^\mathrm{T}\mathbf{h}(\mathbf{x})=f(\mathbf{x})-\sum_ {i=1}^{m}\lambda_ ih_ i(\mathbf{x}),\tag{2}$$
 
 其中，$\lambda_ i$ 为 Lagrangian 乘子（或称为对偶变量）且 $\lambda_ i\geq 0,\forall i\in\mathcal{I}$。由 Lagrangian 函数的定义可知，对于任意 $\mathbf{x}\in\mathcal{D}=\{\mathbf{x}\mid h_ i(\mathbf{x})=0,\forall i\in\mathcal{E};h_ i(\mathbf{x})\geq 0,\forall i\in\mathcal{I}\}$，有 $L(\mathbf{x},\symbfup{\lambda})$ 是关于 $\symbfup{\lambda}$ 的仿射函数。
 
