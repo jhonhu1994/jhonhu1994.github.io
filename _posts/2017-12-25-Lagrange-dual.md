@@ -53,7 +53,7 @@ $$d^\ast=\max_ {\pmb{\lambda};\lambda_ i\geq 0,i\in\mathcal{I}}\;\theta_ \mathrm
 
 _设_ $\mathbf{x}_ 0$ _和_ $\pmb{\lambda}_ 0$ _分别是原始问题  (4) 和对偶问题 (5) 的可行点，当_ $\theta_ \mathrm{D}(\pmb{\lambda})=\theta_ \mathrm{P}(\mathbf{x})$ _时，有_ $\mathbf{x}_ 0$ _和_ $\pmb{\lambda}_ 0$ _分别为原始问题 (4) 和对偶问题 (5) 的最优解_  $\mathbf{x}^\ast$ _和_ $\pmb{\lambda}^\ast$。
 
-注意，上述推论的逆定理并不成立，即求得原始问题 (4) 和对偶问题 (5) 的最优解 $\mathbf{x}^\ast$ 和 $\pmb{\lambda}^\ast$，并不一定有 $\theta_ \mathrm{D}(\pmb{\lambda}^\ast)=\theta_ \mathrm{P}(\mathbf{x}^\ast)$，只能确定有 $\theta_ \mathrm{D}(\pmb{\lambda}^\ast)\leq\theta_ \mathrm{P}(\mathbf{x}^\ast)$。称这种性质为弱对偶性，相应的 $\Delta=\theta_ \mathrm{P}(\mathbf{x}^\ast)-\theta_ \mathrm{D}(\pmb{\lambda}^\ast)$ 被称为对偶间隔。 当满足 $\theta_ \mathrm{P}(\mathbf{x}^\ast)=\theta_ \mathrm{D}(\pmb{\lambda}^\ast)$ 时，称为强对偶性成立，此时可以用解对偶问题代替求解原始问题（对偶问题为凸优化问题）。
+注意，上述推论的逆定理并不成立，即求得原始问题 (4) 和对偶问题 (5) 的最优解 $\mathbf{x}^\ast$ 和 $\pmb{\lambda}^\ast$，并不一定有 $\theta_ \mathrm{D}(\pmb{\lambda}^\ast)=\theta_ \mathrm{P}(\mathbf{x}^\ast)$，只能确定有 $\theta_ \mathrm{D}(\pmb{\lambda}^\ast)\leq\theta_ \mathrm{P}(\mathbf{x}^\ast)$。称这种性质为弱对偶性，相应的 $\Delta=\theta_ \mathrm{P}(\mathbf{x}^\ast)-\theta_ \mathrm{D}(\pmb{\lambda}^\ast)$ 被称为对偶间隔。 当满足 $\theta_ \mathrm{P}(\mathbf{x}^\ast)=\theta_ \mathrm{D}(\pmb{\lambda}^\ast)$ 时，称为强对偶性成立，此时可以用解对偶问题代替求解原始问题（对偶问题为凸问题，易处理）。
 
 可以证明，对于一个凸优化问题，当其存在一个严格可行点 $\mathbf{x}_ 0$（对所有 $i\in\mathcal{I}$，满足 $h_ i(\mathbf{x}_ 0)>0$ ）时，强对偶性成立（Slater定理）。显然，等式（仿射函数）约束的凸优化问题满足强对偶性；无约束凸优化问题更然（无约束优化问题的对偶问题是其本身）。
 
@@ -81,6 +81,6 @@ h_ i(\mathbf{x}^\ast) \geq 0,\;\forall i\in\mathcal{I},\;\;\,\\
 
 ### 对偶的本质？
 
-对 engineers 而言，理解 Lagrange 对偶方法，上述内容已然足够。不过，一个 researcher 可能会指出 ，上述内容回避了一个重要的问题——Lagrangian 函数的表达式是如何导出的。此外，对于非凸问题中的对偶间隔现象也没有很好的解释 。事实上，如果想真正理解优化问题中 “对偶（duality）” 的本质，需要去学习数学家   Werner Fenchel 关于共轭函数（Conjugate Function） 的研究 。可惜，中文互联网上，鲜有相关的讨论。有时间，我来填坑。
+对 engineers 而言，理解 Lagrange 对偶方法，上述内容已然足够。不过，一个 researcher 可能会指出 ，上述内容回避了一个重要的问题——Lagrangian 函数的表达式是如何导出的。此外，对于非凸问题中的对偶间隔现象也没有很好的解释 。事实上，如果想真正理解优化问题中 “对偶（duality）” 的本质，需要去学习德国数学家   Werner Fenchel 关于共轭函数（Conjugate Function） 的研究 。可惜，中文互联网上，鲜有相关的讨论。有时间，我来填坑。
 
 [Jhonhu]:    https://jhonhu1994.github.io  "JhonHu"
