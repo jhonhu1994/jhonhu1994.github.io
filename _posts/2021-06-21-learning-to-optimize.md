@@ -2,7 +2,7 @@
 layout: head
 layout: post
 title: A Brief Review of Learning to Optimize (L2O)
-description: 传统的 CV 和 NLP 任务已经满足不了那帮 programmer 的胃口了，他们终于开始向数学问题下手了。
+description: 传统的 CV 和 NLP 任务已经满足不了那帮 programmer 的胃口了，他们终于开始向数学下手了。
 category: blog
 ---
 
