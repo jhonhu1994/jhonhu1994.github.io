@@ -9,9 +9,9 @@ category: blog
 
 在最优化领域，特别是凸优化中，Lagrange 对偶是极其重要的概念。对于一个优化问题：
 
-$$\min_ {\mathbf{x}\in\mathbb{R}^n}\quad f(\mathbf{x})\qquad\qquad\qquad\qquad\qquad\quad\\
-\mathrm{s.t.}\quad h_ i(\mathbf{x})=0,\,i\in\mathcal{E}={1,2,\cdots,l},\\
-\qquad\quad\;\; h_ i(\mathbf{x})\geq0,\,i\in\mathcal{I}={l+1,\cdots,m}.\tag{1}$$
+$$\min_ {\mathbf{x}\in\mathbb{R}^n}\quad f(\mathbf{x})\qquad\qquad\qquad\qquad\quad\\
+\mathrm{s.t.}\quad h_ i(\mathbf{x})=0,\,i\in\mathcal{E}=\{1,2,\cdots,l\},\\
+\qquad\quad h_ i(\mathbf{x})\geq0,\,i\in\mathcal{I}=\{l+1,\cdots,m\}.\tag{1}$$
 
 定义其 Lagrangian 函数为
 
@@ -69,10 +69,10 @@ $$f(\mathbf{x}^\ast)=\theta_ \mathrm{P}(\mathbf{x}^\ast)=\theta_ \mathrm{D}(\pmb
 
 根据式 (9)，最优解 $(\mathbf{x}^\ast,\pmb{\lambda}^\ast)$ 满足下列 KKT（Karush-Kuhn-Tucker）方程[^1]：
 
-$$\nabla_ \mathbf{x} L(\mathbf{x}^\ast,\pmb{\lambda}^\ast) = \mathbf{0},\qquad\qquad\qquad\;\;\,\\
+$$\nabla_ \mathbf{x} L(\mathbf{x}^\ast,\pmb{\lambda}^\ast) = \mathbf{0},\qquad\qquad\qquad\,\\
 h_ i(\mathbf{x}^\ast) = 0,\;\forall i\in\mathcal{E},\;\;\,\\
 h_ i(\mathbf{x}^\ast) \geq 0,\;\forall i\in\mathcal{I},\;\;\,\\
-\quad\lambda_ i^\ast \geq 0,\;\forall i\in\mathcal{I},\\
+\;\;\lambda_ i^\ast \geq 0,\;\forall i\in\mathcal{I},\\
 \lambda_ i^\ast h_ i(\mathbf{x}^\ast) = 0,\;\forall i\in\mathcal{E}\cup\mathcal{I},\tag{10}$$
 
 其中， $\nabla_ \mathbf{x} L(\mathbf{x}^\ast,\pmb{\lambda}^\ast) = \mathbf{0}$ 被称为零导数条件，来源于 $L(\mathbf{x}^\ast,\pmb{\lambda}^\ast)=\min_ {\mathbf{x}\in\mathbb{R}^n}\;L(\mathbf{x},\pmb{\lambda}^\ast)$； $\lambda_ i^\ast h_ i(\mathbf{x}^\ast) = 0,\;\forall i$ 被称为互补松弛（complementary slackness）条件，来源于 $L(\mathbf{x}^\ast,\pmb{\lambda}^\ast)= f(\mathbf{x}^\ast)$。
