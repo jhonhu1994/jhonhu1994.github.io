@@ -30,13 +30,13 @@ h_ {t+1}
 
 其中，$m$ 代表 LSTM，其根据当前时刻的输入（当前点的梯度 $\nabla f(\mathbf{x}_ t)$ ）和网络状态 $h_ {t}$ （包含历史梯度信息），输出更新步 $\mathbf{g}_ t$；$\phi$ 是待学习的网络参数，$\mathcal{L}(\cdot)$ 是损失函数（loss function），T 为LSTM 的展开长度（horizon）。
 
-图 1 的主要问题在于，当优化变量的维度较高时，需要学习的参数过多（标准的 LSTM，一个隐藏单元包含 8 个全连接层）。因此，常见的做法是，采用 Coordinate-wise 的架构[<sup>[2]</sup>](#refer-anchor-1)，如图 2 所示，优化变量 $\mathbf{x}_ t$ 的每一个分量的更新单独使用一个 LSTM 实现。同时为了进一步减少网络的参数数量，所有的 LSTM 共享权值，每个优化分量的不同行为通过各自的激活函数实现。
+图 1 的主要问题在于，当优化变量的维度较高时，需要学习的参数过多（标准的 LSTM，一个隐藏单元包含 8 个全连接层）。因此，常见的做法是，采用 Coordinate-wise 的架构[<sup>[2]</sup>](#refer-anchor-2)，如图 2 所示，优化变量 $\mathbf{x}_ t$ 的每一个分量的更新单独使用一个 LSTM 实现。同时为了进一步减少网络的参数数量，所有的 LSTM 共享权值，每个优化分量的不同行为通过各自的激活函数实现。
 
 ![Coordinate-wise LSTM-based L2O](/images/Learningtooptimize/Coordinated-wise_LSTM-based_L2O.png)
 
 <center><p><font size="3"><em>Fig 2. Coordinate-wise LSTM-based L2O (one step)</em></font><br/></p></center>
 
-采用 Coordinate-wise 的架构允许我们使用更小的网络，但其忽略了每个分量之间的联系[^1]；权值共享在减少参数数量的同时使得优化器对于优化分量的顺序具有不变性，但其忽略了不同分量可能存在的差异性。对于后者，可以根据优化问题的结构，对优化变量进行分组，不同组采用不同的网络参数，组内所有分量则权值共享。对于前者，可以考虑采用 Hierarchical 的网络架构[<sup>[3]</sup>](#refer-anchor-1)，如图 3 所示：
+采用 Coordinate-wise 的架构允许我们使用更小的网络，但其忽略了每个分量之间的联系[^1]；权值共享在减少参数数量的同时使得优化器对于优化分量的顺序具有不变性，但其忽略了不同分量可能存在的差异性。对于后者，可以根据优化问题的结构，对优化变量进行分组，不同组采用不同的网络参数，组内所有分量则权值共享。对于前者，可以考虑采用 Hierarchical 的网络架构[<sup>[3]</sup>](#refer-anchor-3)，如图 3 所示：
 
 ![Hierarchical LSTM-based L2O](/images/Learningtooptimize/Hierarchical_LSTM-based_L2O.png)
 
@@ -50,11 +50,11 @@ LSTM-based L2O 面临的一个主要困境是，受限于深层网络训练的�
 
 <center><p><font size="3"><em>Fig 4. The Behavior of different Optimizers</em></font><br/></p></center>
 
-初步的解决方法是对网络的训练过程进行优化，比如采用渐进式的训练方案[<sup>[4]</sup>](#refer-anchor-1)，逐步地增加LSTM网络地展开长度，以缓解截断偏差和梯度消失/爆炸之间的 LSTM-based L2O 困境。
+初步的解决方法是对网络的训练过程进行优化，比如采用渐进式的训练方案[<sup>[4]</sup>](#refer-anchor-4)，逐步地增加LSTM网络地展开长度，以缓解截断偏差和梯度消失/爆炸之间的 LSTM-based L2O 困境。
 
 [^1]: 通过利用每个分量之间的联系，往往的确可以加快算法收敛速度，如拟Newton法就比梯度下降法快。
 
-### 2. RL-based L2O[<sup>[5]</sup>](#refer-anchor-1)
+### 2. RL-based L2O[<sup>[5]</sup>](#refer-anchor-5)
 
 ![LSTM-based L2O](/images/Learningtooptimize/Unconstrained_continuous_optimization.png)
 
@@ -104,7 +104,7 @@ $$\mathbf{x}_ {k+1}=\mathcal{S}_ \theta\{\mathbf{W}_ \mathrm{t}\mathbf{x}_ k+\ma
 
 <center><p><font size="3"><em>Fig 6. Unfolding ISTA</em></font><br/></p></center>
 
-进一步的，由于引入了可学习的架构，我们可以把矩阵 $\mathbf{W}_ \mathrm{t}$，$\mathbf{W}_ \mathrm{e}$ 以及收缩因子 $\theta$ 都作为网络的参数进行学习优化，以尽可能地加快算法的收敛速度[^2]。对于式 (5) 的无约束问题，网络的损失函数可以直接定义为目标函数以实现无监督训练[^3]。此外，最早提出此方法的文献 [[6]](#refer-anchor-1) 决定每层共享权值，则图 6 可以视为一个 RNN 沿时间线展开的结果，因此得名 Algorithm/Deep Unfolding。在最近的研究中，不同的层使用不同的参数，以更复杂的训练为代价进一步加快算法的收敛速度。此外，除  $l_ 1$ 正则化，其它包括 $l_ 0$，$l_ \infty$ 和更一般的  $l_ p$ 正则化问题，其对应的前向后向分裂算法的展开也陆续地被提出。（事实上，常见的神经网络的激活函数本质上都可以视为是某个函数的邻近算子[<sup>[7]</sup>](#refer-anchor-1)：ReLu 函数可以视为是正半区间上示性函数 $\iota_ {[0,+\infty[}(x)$ 的邻近算子，tanh 函数可以视为函数 $\phi(x)=\frac{1}{2}(\iota_ {[-1,+1]}(x)+1)((1+x)\ln(1+x)+(1-x)\ln(1-x)-x^2)$ 的邻近算子。在这个意义上，前向后向分裂算法属于很适合进行展开的一类优化算法。）
+进一步的，由于引入了可学习的架构，我们可以把矩阵 $\mathbf{W}_ \mathrm{t}$，$\mathbf{W}_ \mathrm{e}$ 以及收缩因子 $\theta$ 都作为网络的参数进行学习优化，以尽可能地加快算法的收敛速度[^2]。对于式 (5) 的无约束问题，网络的损失函数可以直接定义为目标函数以实现无监督训练[^3]。此外，最早提出此方法的文献 [[6]](#refer-anchor-6) 决定每层共享权值，则图 6 可以视为一个 RNN 沿时间线展开的结果，因此得名 Algorithm/Deep Unfolding。在最近的研究中，不同的层使用不同的参数，以更复杂的训练为代价进一步加快算法的收敛速度。此外，除  $l_ 1$ 正则化，其它包括 $l_ 0$，$l_ \infty$ 和更一般的  $l_ p$ 正则化问题，其对应的前向后向分裂算法的展开也陆续地被提出。（事实上，常见的神经网络的激活函数本质上都可以视为是某个函数的邻近算子[<sup>[7]</sup>](#refer-anchor-7)：ReLu 函数可以视为是正半区间上示性函数 $\iota_ {[0,+\infty[}(x)$ 的邻近算子，tanh 函数可以视为函数 $\phi(x)=\frac{1}{2}(\iota_ {[-1,+1]}(x)+1)((1+x)\ln(1+x)+(1-x)\ln(1-x)-x^2)$ 的邻近算子。在这个意义上，前向后向分裂算法属于很适合进行展开的一类优化算法。）
 
 [^2]: 实验显示，展开后的 ISTA 算法达到相同的收敛效果所需的网络层数，可以比其解析形式的迭代次数小上一个数量级。
 [^3]: 对于带约束的优化问题，可能就需要进行监督训练了，一个特例是，若可以保证网络的每一层输出都在可行域内，则同样可以使用目标函数作为损失函数实现无监督学习。
@@ -113,7 +113,7 @@ $$\mathbf{x}_ {k+1}=\mathcal{S}_ \theta\{\mathbf{W}_ \mathrm{t}\mathbf{x}_ k+\ma
 
 作为 Model-based Deep Leaning 的一部分，Algorithm Unfolding 的优势是很显然的。然而，并不是每一个解析算法都可以（直接）展开的。由于神经网络只包含线性操作和简单的标量非线性操作，因此要求待展开的解析算法在一次迭代中每一步都具有简单的闭式形式。如果存在比较复杂的操作（如矩阵求逆、特征分解等），其必须作为额外的数学模块存在于展开的网络中，且要求模块的输出对输入的导数可获得以便使用反向传播训练网络；此时，算法展开的效率可能就大打折扣了。特别地，若存在某一步不具有解析表达，则这个算法可能就根本不适合展开。
 
-对于迭代中包含复杂/非解析操作的优化算法，一种解决方法是将复杂的算子使用神经网络实现。例如，对于问题（5），当考虑比 $l_ 1$ 正则化更复杂的正则化函数时，后向的邻近算子可能没有解析表示，此时就可以使用一个神经网络来实现它。或者，对于带约束优化问题，若其约束条件较为复杂，到其可行域的投影算子不具简单表达，同样使用一个神经网络来实现投影算子[<sup>[8]</sup>](#refer-anchor-1)[<sup>[9]</sup>](#refer-anchor-1)，则整体上即可使用投影梯度方法来求解目标问题，如图 7 所示——
+对于迭代中包含复杂/非解析操作的优化算法，一种解决方法是将复杂的算子使用神经网络实现。例如，对于问题（5），当考虑比 $l_ 1$ 正则化更复杂的正则化函数时，后向的邻近算子可能没有解析表示，此时就可以使用一个神经网络来实现它。或者，对于带约束优化问题，若其约束条件较为复杂，到其可行域的投影算子不具简单表达，同样使用一个神经网络来实现投影算子[<sup>[8]</sup>](#refer-anchor-8)[<sup>[9]</sup>](#refer-anchor-9)，则整体上即可使用投影梯度方法来求解目标问题，如图 7 所示——
 
 ![Projected gradient descent using a CNN as the projector](/images/Learningtooptimize/PGD_using_CNN.png)
 
