@@ -17,7 +17,7 @@ $$\min_ {\mathbf{x}\in\mathbb{R}^n}\quad f(\mathbf{x})\qquad\qquad\qquad\qquad\q
 
 $$L(\mathbf{x},\pmb{\lambda})=f(\mathbf{x})-\pmb{\lambda}^\mathrm{T}\mathbf{h}(\mathbf{x})=f(\mathbf{x})-\sum_ {i=1}^{m}\lambda_ ih_ i(\mathbf{x}),\tag{2}$$
 
-其中，$\lambda_ i$ 为 Lagrangian 乘子（或称为对偶变量）且 $\lambda_ i\geq 0,\forall i\in\mathcal{I}$。由 Lagrangian 函数的定义可知，对于任意 $\mathbf{x}\in\mathcal{D}=\{\mathbf{x}\mid h_ i(\mathbf{x})=0,\forall i\in\mathcal{E};h_ i(\mathbf{x})\geq 0,\forall i\in\mathcal{I}\}$，有 $L(\mathbf{x},\pmb{\lambda})$ 是关于 $\pmb{\lambda}$ 的仿射函数。
+其中，$\lambda_ i$ 为 Lagrangian 乘子（或称为对偶变量）且 $\lambda_ i\geq 0,\forall i\in\mathcal{I}$。由 Lagrangian 函数的定义可知，对于任意 $\mathbf{x}\in\mathcal{D}=\\{\mathbf{x}\mid h_ i(\mathbf{x})=0,\forall i\in\mathcal{E};h_ i(\mathbf{x})\geq 0,\forall i\in\mathcal{I}\\}$，有 $L(\mathbf{x},\pmb{\lambda})$ 是关于 $\pmb{\lambda}$ 的仿射函数。
 
 ### 原始问题
 
