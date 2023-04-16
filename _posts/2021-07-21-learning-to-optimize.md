@@ -72,7 +72,7 @@ $$\mathbf{x}_ {t+1}=\mathbf{x}_ t+\mathbf{F}\left(f(\mathbf{x}_ 1),\cdots,f(\mat
 
 $$\mathbf{F}\left(f(\mathbf{x}_ 1),\cdots,f(\mathbf{x}_ n);\,\nabla f(\mathbf{x}_ 1),\cdots,\nabla f(\mathbf{x}_ n)\right)=\pi(s_ n),\tag{4}$$
 
-其中，状态 $s_ n=\{\mathbf{x}_ n,\nabla f(\mathbf{x}_ n),\cdots,\nabla f(\mathbf{x}_ {n-T+1}),f(\mathbf{x}_ n),\cdots,f(\mathbf{x}_ {n-T+1})\}$，动作空间是所有的一阶更新步（负梯度、共轭梯度、拟 Newton步、Someone Else），惩罚（奖励）函数为 $c(s_ n)=f(\mathbf{x}_ n)$。策略 $\pi$ （的均值）使用两层前馈神经网络参数化：隐藏层包含50个神经元，使用Softplus 激活函数；输出层使用线性激活函数；网络输入状态信息时排除 $\mathbf{x}_ n$​；使用引导策略搜索方法（Guided Policy Search）训练网络。
+其中，状态 $s_ n=\\{\mathbf{x}_ n,\nabla f(\mathbf{x}_ n),\cdots,\nabla f(\mathbf{x}_ {n-T+1}),f(\mathbf{x}_ n),\cdots,f(\mathbf{x}_ {n-T+1})\\}$，动作空间是所有的一阶更新步（负梯度、共轭梯度、拟 Newton步、Someone Else），惩罚（奖励）函数为 $c(s_ n)=f(\mathbf{x}_ n)$。策略 $\pi$ （的均值）使用两层前馈神经网络参数化：隐藏层包含50个神经元，使用Softplus 激活函数；输出层使用线性激活函数；网络输入状态信息时排除 $\mathbf{x}_ n$​；使用引导策略搜索方法（Guided Policy Search）训练网络。
 
 ## Model-Based L2O
 
